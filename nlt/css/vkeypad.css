@@ -1,0 +1,31 @@
+ @font-face{font-family:'GillSansInfant'; src:url(../fonts/gilsbbd.ttf)}
+ @font-face {font-family: 'Poppins-Bold';src: url('../fonts/poppins/Poppins-Bold.woff2') format('woff2'),url('../fonts/poppins/Poppins-Bold.woff') format('woff');}
+ @font-face {font-family: 'Poppins-Regular';src: url('../fonts/poppins/Poppins-Regular.woff2') format('woff2'),url('../fonts/poppins/Poppins-Regular.woff') format('woff');}
+ @font-face{font-family:'FontAwesome'; src:url(../fonts/fontspringicons-webfont.woff)}
+
+.keypadHolder{font-family:'Poppins-Bold'; font-weight:bold; /*background:#93f84a;*/ background: #e5f6fd;z-index: 1000; border-spacing: 5px; border-radius:5px;left: 462px;top: 113px;padding-top: 12px;}
+.vkBtn{vertical-align:middle;font: bold 23px 'Poppins-Bold'; text-align:center; display:table-cell; background: #a9e4f6;  border-radius:5px;width: 33.3%; color:#000;}
+.vkBtn:active{background:#3394c7;}
+.vkBtnBS{vertical-align:middle; width:53px; text-align:center; display:table-cell; background:#cdeff9;  border-radius:5px;  font: bold 18px 'Poppins-Bold';}
+.NumPadClose{z-index: 10000;}
+/*.vkBtnBS{vertical-align:middle; width:30px; height: 24px;text-align:center; display:table-cell; background: #F6F6F6; font-family:GillSansInfant; }*/
+
+.vkBtnEmp{vertical-align:middle; text-align:center; display:table-cell; background:transparent;}
+/*.vkBtnCls { text-align:center; font-size: 14px; width: 20px; height: 20px; background:#000; border:1px solid #ccc; border-radius:20px; color: #fff; }*/
+.vkBtnCls { text-align:center; font-size: 14px; width: 30px; height: 30px; background:url(../images/close_btn.png) no-repeat; cursor: pointer;}
+.vkBtnQ {position: absolute; display: block; right: 170px; top: 10px;text-align:center; font-size: 14px; width: 20px; height: 20px; background:url(../images/qicon.png) no-repeat; cursor: pointer; background-size: contain;}
+#block{
+   display: none;
+   position: absolute;
+   left: 0px;
+   right: 0px;
+   margin: auto;
+   width: 1024px;
+   height: 768px;
+   background: rgba(0,0,0,0.5);
+   z-index: 100000;
+}
+.key_slash{color: transparent;display:none;}
+.key_slash:active{ background: url(../images/06.png) no-repeat !important; }
+.key_triFrac:active{ background: url(../images/05.png) no-repeat !important; }
+#key_triFrac{background: !important #88c34f;display:none; }

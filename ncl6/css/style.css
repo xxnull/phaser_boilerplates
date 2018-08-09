@@ -1,0 +1,25 @@
+@font-face {font-family: 'Barlow-Regular';src: url('../assets/fonts/barlow/Barlow-Regular.woff2') format('woff2'),url('../assets/fonts/barlow/Barlow-Regular.woff') format('woff');}
+@font-face {font-family: 'Poppins-Bold';src: url('../assets/fonts/poppins/Poppins-Bold.woff2') format('woff2'),url('../assets/fonts/poppins/Poppins-Bold.woff') format('woff');}
+@font-face {font-family: 'Poppins-SemiBold';src: url('../assets/fonts/poppins/Poppins-SemiBold.woff2') format('woff2'),url('../assets/fonts/poppins/Poppins-SemiBold.woff') format('woff');}
+@font-face {font-family: 'Poppins-Regular';src: url('../assets/fonts/poppins/Poppins-Regular.woff2') format('woff2'),url('../assets/fonts/poppins/Poppins-Regular.woff') format('woff');}
+@font-face {font-family: 'Roboto-Black';src: url('../assets/fonts/roboto/Roboto-Black.woff2') format('woff2'),url('../assets/fonts/roboto/Roboto-Black.woff') format('woff');}
+@font-face {font-family: 'Roboto-Regular';src: url('../assets/fonts/roboto/Roboto-Regular.woff2') format('woff2'),url('../assets/fonts/roboto/Roboto-Regular.woff') format('woff');}
+@font-face {font-family: 'Roboto-Thin';src: url('../assets/fonts/roboto/Roboto-Thin.woff2') format('woff2'),url('../assets/fonts/roboto/Roboto-Thin.woff') format('woff');}
+
+body{
+	overflow:hidden;
+	background-color:#fff;
+}
+*{
+	padding: 0;
+	margin: 0;
+}
+canvas{
+	/*border:solid 2px #00B0E7;*/
+	background-color:#fff;
+	/*box-shadow:1px 4px 3px 3px #888;*/
+}
+#Layer_1{
+	width:950px;
+	height:450px;	
+}

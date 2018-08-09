@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@-webkit-keyframes glowing {
+    0% {
+        background-color: #00B0E7;
+    }
+    50% {
+        background-color: #0a627d;
+    }
+    100% {
+        background-color: #00B0E7;
+    }
+}
+
+@-moz-keyframes glowing {
+    0% {
+        background-color: #00B0E7;
+    }
+    50% {
+        background-color: #0a627d;
+    }
+    100% {
+        background-color: #00B0E7;
+    }
+}
+
+@-o-keyframes glowing {
+    0% {
+        background-color: #00B0E7;
+    }
+    50% {
+        background-color: #0a627d;
+    }
+    100% {
+        background-color: #00B0E7;
+    }
+}
+
+@keyframes glowing {
+    0% {
+        background-color: #00B0E7;
+    }
+    50% {
+        background-color: #0a627d;
+    }
+    100% {
+        background-color: #00B0E7;
+    }
+}
+
+.abs-centered,
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.spinner,
+.spinner-wrapper {
+    position: relative;
+    max-width: 490px;
+    width: 100%;
+}
+
+.spinner {
+    padding-top: 100%;
+    background-image: url(../images/spinner-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.actions-container {
+    padding: 1em;
+    text-align: center;
+}
+
+.custom-btn {
+    display: inline-block;
+    background: #44b0e7;
+    color: #FFF;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    font-size: 1.125em;
+    letter-spacing: .8px;
+    transition: .2s all ease;
+    height: 2.25em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    box-shadow: 0px 0px 5px rgba(6, 174, 233,0.7);
+}
+
+.custom-btn:not([disabled]) {
+    animation: glowing 1500ms infinite;
+}
+
+.custom-btn:hover {
+    background: #3ea1d4;
+}
+
+.custom-btn:active {
+    background: #348bb7;
+}
+
+button[disabled].custom-btn {
+    opacity: .5;
+    cursor: default;
+}
+
+button[disabled].custom-btn:hover {
+    background: #44b0e7;
+}
+
+.block-ends {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.spinner-controls {
+    display: flex;
+    height: 5em;
+    align-items: center;
+}
+
+.spinner-controls.right {
+    justify-content: flex-end;
+}
+
+select {
+    margin-left: .5em;
+}

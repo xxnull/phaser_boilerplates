@@ -1,0 +1,33 @@
+{
+  "name": "phaser boilerplates",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictoryProductions/7760-EqualEd.git"
+  },
+  "author": "Victory Prd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictoryProductions/7760-EqualEd/issues"
+  },
+  "homepage": "https://github.com/VictoryProductions/7760-EqualEd#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "d3": "^5.4.0"
+  },
+  "dependencies": {
+    "@pixi/filter-motion-blur": "^2.6.1",
+    "dat.gui": "^0.7.2",
+    "highcharts": "^6.1.0",
+    "jquery": "^3.3.1",
+    "phaser": "^3.8.0",
+    "phaser-ce": "^2.10.5",
+    "pixi.js": "^4.7.3"
+  }
+}

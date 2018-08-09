@@ -1,0 +1,16 @@
+{
+  "setup": {
+    "sections": [
+      "BLUE",
+      "RED"
+    ]
+  },
+  "lang": {
+    "ES": {
+      "spinButtonText": "GIRAR"
+    },
+    "EN": {
+      "spinButtonText": "SPIN"
+    }
+  }
+}

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Spinner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @-webkit-keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    @-moz-keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    @-o-keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    @keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    .abs-centered,
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .spinner,
+    .spinner-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .spinner {
+      padding-top: 100%;
+      background-image: url(images/spinner-background.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .actions-container {
+      padding: 1em;
+      text-align: center;
+    }
+
+    .custom-btn {
+      display: inline-block;
+      background: #44b0e7;
+      color: #FFF;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      border-radius: 40px;
+      font-size: 1.125em;
+      letter-spacing: .8px;
+      transition: .2s all ease;
+      height: 2.25em;
+      padding-left: 1.5em;
+      padding-right: 1.5em;
+      box-shadow: 0px 0px 5px rgba(6, 174, 233, 0.7);
+    }
+
+    .custom-btn:not([disabled]) {
+      animation: glowing 1500ms infinite;
+    }
+
+    .custom-btn:hover {
+      background: #3ea1d4;
+    }
+
+    .custom-btn:active {
+      background: #348bb7;
+    }
+
+    button[disabled].custom-btn {
+      opacity: .5;
+      cursor: default;
+    }
+
+    button[disabled].custom-btn:hover {
+      background: #44b0e7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="spinner-wrapper" id="spinner-wrapper-1">
+    <div class="spinner spinner-container"></div>
+    <div class="actions-container">
+      <button disabled class="custom-btn spin-btn" id="btn">...</button>
+    </div>
+  </div>
+
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/pixi.min.js"></script>
+  <script src="scripts/random.min.js"></script>
+  <script src="scripts/TweenLite.min.js"></script>
+  <script src="scripts/ScrollToPlugin.min.js"></script>
+  <script src="scripts/PixiPlugin.min.js"></script>
+  <script src="scripts/spinner.game.js"></script>
+
+  <script>
+    (function () {
+      var simulations = 1;
+
+      function displayTexts(lang) {
+        var texts = {
+          '#btn': lang.spinButtonText
+        };
+
+        for (var selector in texts) {
+          if (texts.hasOwnProperty(selector)) {
+            API.setText(selector, texts[selector]);
+          }
+        }
+      }
+
+      function start() {
+        API.fetchSettings('./', function (lang, settings) {
+          displayTexts(lang);
+          displaySpinner(settings);
+        });
+      }
+
+      function getSpinnerSetup() {
+        var setup = localStorage.getItem('spinner');
+
+        if (setup) {
+          setup = JSON.parse(setup).map(function (color) {
+            return { color: color };
+          });
+        }
+
+        return setup;
+      }
+
+      function disable(node, spinning) {
+        if (spinning) node.setAttribute('disabled', 'disabled');
+        else node.removeAttribute('disabled');
+      }
+
+      function displaySpinner(settings) {
+        localStorage.setItem('spinner:history', '');
+        localStorage.setItem('spinner:simulations', '');
+        localStorage.setItem('spinner:clear', '');
+
+        var setup = getSpinnerSetup();
+        var parent = document.querySelector('.spinner-container');
+        var spin = document.querySelector('.spin-btn');
+        var size = parent.clientHeight;
+        var spinner = new Spinner.Game(size, parent, {
+          slices: setup ? setup : settings.sections.map(function (color) {
+            return Spinner.colors[color];
+          }),
+          blurMotion: settings.blurMotion,
+        });
+
+        disable(spin, true);
+
+        spinner.events.on('ready', function () {
+          disable(spin, false);
+          localStorage.setItem('spinner:disable', JSON.stringify(false));
+        });
+
+        spinner.events.on('spin:start', function () {
+          disable(spin, true);
+          localStorage.setItem('spinner:disable', JSON.stringify(true));
+        });
+
+        spinner.events.on('spin:end', function () {
+          disable(spin, false);
+          localStorage.setItem('spinner:disable', JSON.stringify(false));
+        });
+
+        spinner.events.on('history:update', function (history) {
+          var string = JSON.stringify(history);
+          localStorage.setItem('spinner:history', string);
+        });
+
+        spinner.events.on('simulations:end', function (history, time) {
+          var string = JSON.stringify({
+            history: history,
+            time: time
+          });
+
+          localStorage.setItem('spinner:simulations', string);
+        });
+
+        spin.addEventListener('click', spinner.spin.bind(spinner, simulations));
+
+        window.addEventListener('storage', function (e) {
+          var key = e.key || '';
+          var stringified = localStorage.getItem(key);
+
+          if (stringified && key === 'spinner:clear') {
+            spinner.resetHistory();
+            localStorage.setItem('spinner:clear', JSON.stringify(false));
+          }
+        });
+      }
+
+      window.onload = start;
+    })();
+  </script>
+
+</body>
+
+</html>

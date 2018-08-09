@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Spinner Lesson 7</title>
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="spinner-wrapper" id="spinner-wrapper-1">
+					<div class="spinner spinner-container"></div>
+					<div class="actions-container">
+						<button disabled class="custom-btn spin-btn">Spin 10</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="table-wrapper">
+					<div class="table-head">
+						<table>
+							<thead>
+								<th width="30%">
+									Total Trials
+								</th>
+								<th width="30%">
+									Total Red
+								</th>
+								<th width="40%">
+									Percentage Red
+								</th>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table-container">
+						<table class="table table-bordered table-striped table-condensed">
+							<tbody id="table">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="row">
+					<div class="col-sm-6"></div>
+					<div class="col-sm-6">
+						<div class="text-center block-ends">
+							<strong>Experimental Probability Graph</strong>
+						</div>
+					</div>
+				</div>
+				<div id="graph"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="scripts/highcharts.js"></script>
+	<script src="scripts/pixi.min.js"></script>
+	<script src="scripts/random.min.js"></script>
+	<script src="scripts/TweenLite.min.js"></script>
+	<script src="scripts/ScrollToPlugin.min.js"></script>
+	<script src="scripts/PixiPlugin.min.js"></script>
+	<script src="scripts/spinner.game.js"></script>
+	<script src="index.js"></script>
+</body>
+
+</html>

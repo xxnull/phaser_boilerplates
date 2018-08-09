@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta name="format-detection" content="telephone=no"/>
+        <title>Number Cards</title>
+        <link href="scripts/lib/jquery/css/jquery-ui.min.css" rel="stylesheet">
+        <link href="scripts/lib/jquery/css/jquery-ui.theme.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+        <script src='scripts/lib/jquery/js/jquery.js'></script>
+        <script src='scripts/lib/jquery/js/jquery-ui.min.js'></script>
+        <script src='scripts/lib/jquery/js/jquery.ui.touch-punch.min.js'></script>
+        <script src="scripts/lib/jquery.flip.min.js"></script>  
+        <script src="scripts/lib/preload.js"></script>
+        
+    </head>
+    <body style="opacity: 0;">
+    	<div id="mainContainer">
+            <div id="container">            
+               <div id="overlay"></div>           
+               <div id="cardOverlay1" class="overlay"></div>           
+               <div id="cardOverlay2" class="overlay"></div>           
+                <div id="popupAlert"><span id="msg"></span><div id="btnOK" class="btn" onclick="msgOK()"/>OK</div></div>
+                <div id="workarea">
+                    <!-- <div id="header"><div id="title1">Number Cards</div><div id="title2">ENGAGE</div></div>                 -->
+                    <div id="cardContainer" style="position:relative;width:515px;height:680px;margin-top:19px;margin-left:19px;background-image:url('assets/images/Cloth_Background_550x725.png');background-repeat:no-repeat;background-size:contain;background-position: center;"></div>
+                    <div class="btn" id="btnReset">Shuffle</div>
+                    <div class="btn" id="btnData">Data</div>
+                    <div id="divReport"></div>
+                    <div id="divMsg"></div>
+                </div>
+                <!-- <div id="divIns" onclick="showIns()"></div> -->
+            
+            </div>
+    	</div>           
+    	   <script src='scripts/activity.js'></script>
+           <script src="scripts/lib/TweenMax.js"></script>
+           <script src="scripts/lib/TimelineMax.js"></script>
+           <script src="scripts/lib/jquery.gsap.js"></script>  
+    
+      <script>
+
+        function resizeContainer(){
+                resetContainer();
+            
+            
+            setTimeout(function(){
+                var origWidth = 553;
+                var origHeight = 768;
+
+                var widthScale = $(window).width() / origWidth;
+                var heightScale = $(window).height() / origHeight;
+                var lowerScale = Math.min(widthScale, heightScale);
+                
+                $('#mainContainer').css({
+                    'transform':'scale('+lowerScale+')',
+                    '-webkit-transform':'scale('+lowerScale+')',
+                    '-moz-transform':'scale('+lowerScale+')',
+                    '-o-transform':'scale('+lowerScale+')'
+                });
+                var leftPos = ($(window).width()-(lowerScale*origWidth))/2;
+                var topPos = ($(window).height()-(lowerScale*origHeight))/2;
+                $('#mainContainer').css({
+                    left:leftPos+'px',
+                    top:topPos+'px'
+                });
+                $('body').animate({'opacity':'1'},'fast');
+            },200)
+            
+        }
+        window.onload = function(){            
+            init();
+            resizeContainer();
+        };
+        window.onresize = function(){
+            resizeContainer();
+        }
+        window.addEventListener("orientationchange", function() {
+            resizeContainer();
+        });
+        function resetContainer(){
+            $('#mainContainer').css({
+                'transform-origin': '0px 0px 0px',
+                '-webkit-transform-origin': '0px 0px 0px',
+                '-moz-transform-origin': '0px 0px 0px',
+                '-o-transform-origin': '0px 0px 0px',
+                'transform':'scale(1)',
+                '-webkit-transform':'scale(1)',
+                '-moz-transform':'scale(1)',
+                '-o-transform':'scale(1)', 
+                'width':'553px',
+                'height':'768px',
+                'left':'0px',       
+                'top':'0px'
+            });
+        }
+    </script>
+    </body>
+</html>

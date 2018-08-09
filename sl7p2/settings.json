@@ -1,0 +1,32 @@
+{
+  "setup": {
+    "setupMode": true,
+    "sections": [],
+    "allowedColors": [
+      "BLUE",
+      "RED"
+    ]
+  },
+  "lang": {
+    "ES": {
+      "spinButtonText": "GIRAR",
+      "selectLabelText": "Número de secciones:",
+      "tableHeaderTrial": "Intento",
+      "tableHeaderOutcome": "Resultado",
+      "colors": {
+        "RED": "ROJO",
+        "BLUE": "AZUL"
+      }
+    },
+    "EN": {
+      "spinButtonText": "SPIN",
+      "selectLabelText": "Number of sections:",
+      "tableHeaderTrial": "Trial",
+      "tableHeaderOutcome": "Outcome",
+      "colors": {
+        "RED": "RED",
+        "BLUE": "BLUE"
+      }
+    }
+  }
+}

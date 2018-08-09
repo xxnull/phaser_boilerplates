@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Experimental Graph</title>
+  <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    @-webkit-keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    @-moz-keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    @-o-keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    @keyframes glowing {
+      0% {
+        background-color: #00B0E7;
+      }
+      50% {
+        background-color: #0a627d;
+      }
+      100% {
+        background-color: #00B0E7;
+      }
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .block-ends {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .actions-container {
+      padding: 1em;
+      text-align: center;
+    }
+
+    .custom-btn {
+      display: inline-block;
+      background: #44b0e7;
+      color: #FFF;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      border-radius: 40px;
+      font-size: 1.125em;
+      letter-spacing: .8px;
+      transition: .2s all ease;
+      text-transform: uppercase;
+      height: 2.25em;
+      padding-left: 1.5em;
+      padding-right: 1.5em;
+    }
+
+    .custom-btn:hover {
+      background: #3ea1d4;
+    }
+
+    .custom-btn:active {
+      background: #348bb7;
+    }
+
+    button[disabled].custom-btn {
+      opacity: .5;
+      cursor: default;
+    }
+
+    button[disabled].custom-btn:hover {
+      background: #44b0e7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="text-center block-ends">
+    <strong id="graph-title"></strong>
+  </div>
+  <div id="graph"></div>
+  <div class="actions-container">
+    <button class="custom-btn reset-btn" id="btn"></button>
+  </div>
+
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/highcharts.js"></script>
+  <script>
+    (function () {
+      function displayTexts(lang) {
+        var texts = {
+          '#btn': lang.resetButtonText,
+          '#graph-title': lang.graph.title,
+        };
+
+        for (var selector in texts) {
+          if (texts.hasOwnProperty(selector)) {
+            API.setText(selector, texts[selector]);
+          }
+        }
+      }
+
+      function start() {
+        API.fetchSettings('./', function (lang, settings) {
+          displayTexts(lang);
+          displayGraph(lang.graph);
+        });
+      }
+
+      function displayGraph(lang) {
+        var reset = document.querySelector('.reset-btn');
+        var graph = document.getElementById('graph');
+        var simulations = 10;
+        var initialMax = simulations * 5;
+        var height = window.innerHeight;
+        var unit = 48 + 63.44;
+        var chart;
+
+        function createGraph(parent, height) {
+          return Highcharts.chart({
+            title: '',
+            chart: {
+              renderTo: parent,
+              type: 'line',
+              height: height,
+              animation: {
+                duration: 80,
+                easing: 'swing'
+              }
+            },
+            plotOptions: {
+              series: {
+                pointStart: 1
+              }
+            },
+            xAxis: {
+              min: 0,
+              max: initialMax,
+              allowDecimals: false,
+              title: {
+                text: lang.xAxisLabel,
+                x: -30
+              }
+            },
+            yAxis: {
+              min: 0,
+              max: 1,
+              title: {
+                text: lang.yAxisLabel
+              },
+              lineWidth: 1
+            },
+            series: [{
+              name: 'red',
+              data: []
+            }],
+            credits: {
+              enabled: false
+            },
+            legend: {
+              enabled: false
+            }
+          });
+        }
+
+        function updateGraph(history, simulate, time) {
+          if (!history.length) return clearGraph();
+
+          var acc = 0;
+          var data = history.map(function (row) {
+            var trial = row[0];
+            acc += row[1] === 'RED' ? 1 : 0;
+            var percent = parseFloat((acc / trial).toFixed(2))
+            return [trial, percent];
+          });
+
+          var trials = data.map(function (row) { return row[0]; });
+          var maxTrial = Math.max.apply(Math, trials);
+          var max = maxTrial < initialMax ? maxTrial + (initialMax - maxTrial) : maxTrial;
+          chart.xAxis[0].setExtremes(0, max);
+
+          var subtract = simulate ? simulations - 1 : simulations;
+          var latestData = data.slice(history.length - subtract);
+
+          if (!chart.series.length) {
+            chart.addSeries({
+              name: 'red',
+              data: []
+            });
+          }
+
+          if (simulate) {
+            var duration = time * 1000;
+            var timeInterval = duration / latestData.length;
+            var index = 0;
+            var interval = setInterval(function () {
+              chart.series[0].addPoint(latestData[index++]);
+              if (index === latestData.length) clearInterval(interval);
+            }, timeInterval);
+          } else {
+            chart.series[0].addPoint(latestData[latestData.length - 1]);
+          }
+        }
+
+        function clearGraph() {
+          while (chart.series.length > 0) {
+            chart.series[0].remove(false);
+          }
+
+          chart.redraw();
+        }
+
+        function onWindowResize() {
+          var height = window.innerHeight;
+          chart.setSize(graph.parentElement.clientWidth - 30, height - unit);
+        }
+
+        function disable(node, spinning) {
+          if (spinning) node.setAttribute('disabled', 'disabled');
+          else node.removeAttribute('disabled');
+        }
+
+        chart = createGraph(graph, height - unit);
+
+        window.addEventListener('storage', function (e) {
+          var key = e.key || '';
+          var stringified = localStorage.getItem(key);
+
+          if (stringified) {
+            if (key === 'spinner' + simulations + ':history') {
+              var history = JSON.parse(stringified);
+              updateGraph(history);
+            } else if (key === 'spinner' + simulations + ':simulations') {
+              var data = JSON.parse(stringified);
+              updateGraph(data.history, true, data.time);
+            } else if (key === 'spinner' + simulations + ':disable') {
+              var disabled = JSON.parse(stringified);
+
+              if (disabled !== null || disabled !== undefined) {
+                disable(reset, disabled);
+              }
+            }
+          }
+        });
+
+        window.addEventListener('resize', onWindowResize);
+
+        reset.addEventListener('click', function () {
+          localStorage.setItem('spinner' + simulations + ':clear', JSON.stringify(true));
+        });
+      }
+
+      window.onload = start;
+    })();
+  </script>
+</body>
+
+</html>

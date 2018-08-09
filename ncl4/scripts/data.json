@@ -1,0 +1,5 @@
+{
+	"frontCardImage":[{"deck1":"card_1.png","deck2":"card_2.png"}],
+	"deck1":[{"number":1,"image":"card_001_back.png"},{"number":2,"image":"card_002_back.png"},{"number":3,"image":"card_003_back.png"},{"number":4,"image":"card_004_back.png"},{"number":5,"image":"card_005_back.png"},{"number":6,"image":"card_006_back.png"}],
+	"deck2":[{"number":1,"image":"card_001_back.png"},{"number":2,"image":"card_002_back.png"},{"number":3,"image":"card_003_back.png"},{"number":4,"image":"card_004_back.png"},{"number":5,"image":"card_005_back.png"},{"number":6,"image":"card_006_back.png"}]
+}

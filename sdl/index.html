@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta name="format-detection" content="telephone=no"/>
+        <title>Sleeping Dragon</title>
+        <link href="css/style.css" rel="stylesheet">
+
+        <script src='scripts/lib/jquery/js/jquery.js'></script>
+        <script src="scripts/lib/preload.js"></script>
+    </head>
+    <body style="opacity: 0;">
+    	<div id="mainContainer">
+            <video id="dragonOpening" preload="auto" loop>
+              <source src="assets/videos/01_Dragon_Opening_v2.mp4" type="video/mp4">
+            </video>
+            <video id="panOut" preload="auto">
+              <source src="assets/videos/02_Pan_Out_from_Dragon_to_panel_v3.mp4" type="video/mp4">
+            </video>
+            <video id="panOutPanel" preload="auto">
+              <source src="assets/videos/03_Pan_Out_from Panel_v3.mp4" type="video/mp4">
+            </video>
+            <video id="dragonWakes" preload="auto">
+              <source src="assets/videos/05_Outcome1_Dragon_Awakes_v3.mp4" type="video/mp4">
+            </video>
+            <video id="dragonSleeps" preload="auto">
+              <source src="assets/videos/04_Outcome1_Dragon_Sleeps_V3.mp4" type="video/mp4">
+            </video>
+
+            <audio id="dragonAwakesAudio" preload="auto" loop>
+                <source src="assets/audios/Outcome_Dragon_Awakes.mp3" type="audio/mp3">
+            </audio>
+            <audio id="dragonSleepsAudio" preload="auto" loop>
+                <source src="assets/audios/Outcome_Dragon_Sleeps.mp3" type="audio/mp3">
+            </audio>
+            
+            <div id="container">            
+               <div id="scene1" class="scene">
+                   <div id="activityTitle"></div>
+                   <button id="beginBtn" class="blueButton">Begin</button>
+               </div>
+                <div id="scene2" class="scene">
+                    <div class="instruction">
+                       <div id="panelBlocker"></div>
+                        <div class="tableContainer">
+                           <table cellpadding="0" cellspacing="0">
+                                <thead>
+                                   <tr>
+                                       <th>Setting the Alarm</th>
+                                   </tr> 
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: left; padding-left: 20px;">How many numbers?</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="questionTxt">1 to 
+                                            <input id="rangeTxt" type="number" oninput="enableButton(this,'#generateTableBtn')" onchange="enableButton(this,'#generateTableBtn')" />
+                                            <select id="fixedRange"></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="tableButtonContainer"><button id="generateTableBtn" disabled class="blueButton">Generate Table</button></div></td>
+                                    </tr>
+                                </tbody>
+                           </table>
+                           
+                        </div>
+                    </div>
+               </div>
+               <div id="scene3" class="scene">
+                    <div class="tableContainer">
+                       <table cellpadding="0" cellspacing="0">
+                            <thead>
+                               <tr>
+                                   <th>Setting the Alarm</th>
+                               </tr> 
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="gridMainContainer">
+                                            <div class="gridLeftContainer">
+                                                <div style="height: 100%">
+                                                    <table style="height: 100%">
+                                                        <tr style="height: 40%">
+                                                            <td style="vertical-align: bottom;">
+                                                                <div id="displayInputHolder">
+                                                                    <div id="displayUserInput">-</div>
+                                                                    <div>Cells<br/>Total</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="height: 20%">
+                                                            <td>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="height: 40%">
+                                                            <td style="vertical-align: top;">
+                                                                <div id="displayOutputHolder">
+                                                                    <div id="displayUserOutput">-</div>
+                                                                    <div>Cells<br/>Shaded</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>    
+                                                </div>
+                                            </div>
+                                            <div class="gridRightContainer">
+                                                <div id="gridHolder"></div>
+                                                <div class="legendContainer" style="position: absolute;">
+                                                    <span class="legendBox wakes">alarm/wakes</span>
+                                                    <span class="legendBox sleeps">no alarm/sleeps</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div class="tableButtonContainer"><button id="doneBtn" disabled class="blueButton">Set</button><button id="resetBtn" disabled class="blueButton">Reset</button></div></td>
+                                </tr>
+                                
+                            </tbody>
+                       </table>
+                    </div>
+               </div>
+               <div id="scene4" class="scene">
+                    <div id="popUpContainer">
+                        <div class="popUpHeader"></div>
+                        <div class="popUpContent">
+                            <div id="tableHolder"></div> 
+                            <br/>
+                            <br/>
+                            <div class="tableButtonContainer" style="margin-top: 10px">
+                                <div style="display: table; width:100%;">
+                                    <div style="float: left;">
+                                        <button id="do1TrialBtn" class="blueButton" style="width: 135px;">Try 1 Time</button>
+                                        <button id="do100TrialsBtn" class="blueButton" style="width: 160px;">Try 100 Times</button>
+                                    </div>
+                                    <div style="float: right;">
+                                        <button id="trialsDoneBtn" disabled class="blueButton">Done</button>
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <button id="knobBtn" disabled class="blueButton">Open Door</button>
+               </div>
+               <div id="scene5" class="scene">
+                    <div class="tableContainer overallSummaryContainer">
+                        <table cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">The probability you created was: <span class="createdProbability"></span></th>
+                                </tr>    
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" style="background-color: #CFEFFB;">The results of your experiment were:</td>
+                                </tr>
+                                <tr>
+                                    <td>Doors tried</td>
+                                    <td class="doorsTriedValue">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Dragon woke</td>
+                                    <td class="dragonsWakeValue">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Experimental probability</td>
+                                    <td class="expProbValue">-</td>
+                                </tr>  
+                                <tr>
+                                    <td colspan="3" style="width: 100%; padding-left: 0px;"><div class="tableButtonContainer"><button id="doMoreTrialsBtn" class="blueButton" style="margin:auto;">Do more trials</button></div></td>
+                                </tr>     
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    
+               </div>
+               
+            </div>
+    	</div>           
+        <script src='scripts/activity.js'></script>
+        <script>
+            function resizeContainer(){
+                resetContainer();
+                setTimeout(function(){
+                    var origWidth = 1024;
+                    var origHeight = 768;
+
+                    var widthScale = $(window).width() / origWidth;
+                    var heightScale = $(window).height() / origHeight;
+                    var lowerScale = Math.min(widthScale, heightScale);
+                    
+                    $('#mainContainer').css({
+                        'transform':'scale('+lowerScale+')',
+                        '-webkit-transform':'scale('+lowerScale+')',
+                        '-moz-transform':'scale('+lowerScale+')',
+                        '-o-transform':'scale('+lowerScale+')'
+                    });
+                    var leftPos = ($(window).width()-(lowerScale*origWidth))/2;
+                    var topPos = ($(window).height()-(lowerScale*origHeight))/2;
+                    $('#mainContainer').css({
+                        left:leftPos+'px',
+                        top:topPos+'px'
+                    });
+                    $('body').animate({'opacity':'1'},'fast');
+                },200)
+            }
+            window.onload = function(){
+                init();
+                resizeContainer();
+            };
+            window.onresize = function(){
+                resizeContainer();
+            }
+            window.addEventListener("orientationchange", function() {
+                resizeContainer();
+            });
+            function resetContainer(){
+                $('#mainContainer').css({
+                    'transform-origin': '0px 0px 0px',
+                    '-webkit-transform-origin': '0px 0px 0px',
+                    '-moz-transform-origin': '0px 0px 0px',
+                    '-o-transform-origin': '0px 0px 0px',
+                    'transform':'scale(1)',
+                    '-webkit-transform':'scale(1)',
+                    '-moz-transform':'scale(1)',
+                    '-o-transform':'scale(1)', 
+                    'width':'1024px',
+                    'height':'768px',
+                    'left':'0px',       
+                    'top':'0px'
+                });
+            }
+        </script>
+    </body>
+</html>

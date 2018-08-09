@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Table</title>
+
+  <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .table-wrapper {
+      position: relative;
+      margin: auto;
+    }
+
+    .table-container {
+      overflow: auto;
+      padding-top: 2.39em;
+    }
+
+    .table-wrapper .table-head {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      justify-content: space-around;
+      border-bottom: 1px solid #ddd;
+      padding: .5em 0;
+      background: #FFF;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 0 !important;
+    }
+
+    table thead th,
+    table tbody td {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="table-wrapper">
+    <div class="table-head">
+      <table>
+        <thead>
+          <th width="30%" id="total-trials"></th>
+          <th width="30%" id="total-red"></th>
+          <th width="40%" id="percentage-red"></th>
+        </thead>
+      </table>
+    </div>
+
+    <div class="table-container">
+      <table class="table table-bordered table-striped table-condensed">
+        <tbody id="table">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/TweenLite.min.js"></script>
+  <script src="scripts/ScrollToPlugin.min.js"></script>
+
+  <script>
+    (function () {
+      function TableManager(selector) {
+        this._element = document.querySelector(selector);
+      }
+
+      TableManager.prototype.clear = function () {
+        this._element.innerHTML = '';
+      }
+
+      TableManager.prototype.addRow = function (rowData) {
+        var row = document.createElement('tr');
+        rowData.forEach(function (cellData) {
+          var cell = document.createElement('td');
+          cell.textContent = cellData.text;
+
+          if (!cellData.attr) cellData.attr = {};
+
+          for (var property in cellData.attr) {
+            if (cellData.attr.hasOwnProperty(property)) {
+              cell.setAttribute(property, cellData.attr[property]);
+            }
+          }
+
+          row.appendChild(cell);
+        });
+
+        this._element.appendChild(row);
+        return row;
+      }
+
+      var table = new TableManager('#table');
+      var simulations = 1;
+
+      function getEmptySpots(existingLength) {
+        var container = document.querySelector('.table-container');
+        var max = Number(container.style.maxHeight.replace('px', ''));
+        var height = 31;
+        var minLength = Math.floor(max / height) - 1;
+        var rows = [];
+
+        if (existingLength < minLength) {
+          var length = Math.abs(minLength - existingLength);
+
+          for (var i = 0; i < length; i++) {
+            rows[i] = [{
+              text: '',
+              attr: { width: '30%', height: height + 'px' }
+            },
+            {
+              text: '',
+              attr: { width: '30%', height: height + 'px' }
+            },
+            {
+              text: '',
+              attr: { width: '40%', height: height + 'px' }
+            }];
+          }
+        }
+
+        return rows;
+      }
+
+      function updateTable(history) {
+        table.clear();
+
+        if (history.length) {
+          var groups = history.reduce(function (collection, data, index) {
+            var index = Math.floor(index / simulations);
+
+            if (!collection[index]) {
+              collection[index] = [];
+            }
+
+            collection[index].push(data);
+            return collection;
+          }, []);
+
+          var landsOnRed = 0;
+          var rows = groups.map(function (group, index) {
+            var row = [];
+            var trials = group.length + (group.length * index);
+            landsOnRed += group.reduce((count, data) => {
+              return data[1] === 'RED' ? count + 1 : count;
+            }, 0);
+            var percent = landsOnRed / trials;
+
+            row.push({ text: trials, attr: { width: '30%' } });
+            row.push({ text: landsOnRed, attr: { width: '30%' } });
+            row.push({
+              text: (percent * 100).toFixed(1) + '%',
+              percent: percent,
+              attr: { width: '40%' },
+            });
+
+            return row;
+          }, []);
+
+          rows.concat(getEmptySpots(rows.length)).forEach(function (row) {
+            table.addRow(row);
+          });
+        } else {
+          getEmptySpots(0).forEach(function (row) {
+            table.addRow(row);
+          });
+        }
+      }
+
+      function scrollTableContainer(container) {
+        TweenLite.to(container, 1, {
+          scrollTo: container.scrollHeight,
+        });
+      }
+
+      function onWindowResize() {
+        var size = window.innerHeight;
+        var headHeight = document.querySelector('.table-head').clientHeight;
+        var tableContainer = document.querySelector('.table-container');
+        tableContainer.style.maxHeight = size + 'px';
+        tableContainer.style.paddingTop = headHeight + 'px';
+      }
+
+      function displayTable() {
+
+        window.addEventListener('storage', function (e) {
+          var key = e.key;
+
+          if (key === 'spinner:history') {
+            var stringified = localStorage.getItem(key);
+
+            if (stringified) {
+              var history = JSON.parse(stringified);
+              var container = document.querySelector('.table-container');
+              updateTable(history);
+              scrollTableContainer(container);
+            }
+          }
+        });
+
+        window.addEventListener('resize', onWindowResize);
+        onWindowResize();
+        updateTable([]);
+      }
+
+      function displayTexts(lang) {
+        var texts = {
+          '#total-trials': lang.table.header1,
+          '#total-red': lang.table.header2,
+          '#percentage-red': lang.table.header3,
+        };
+
+        for (var selector in texts) {
+          if (texts.hasOwnProperty(selector)) {
+            API.setText(selector, texts[selector]);
+          }
+        }
+      }
+
+      function start() {
+        API.fetchSettings('./', function (lang, settings) {
+          displayTexts(lang);
+          displayTable();
+        });
+      }
+
+      window.onload = start;
+    })();
+  </script>
+</body>
+
+</html>

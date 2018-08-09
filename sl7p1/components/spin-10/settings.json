@@ -1,0 +1,53 @@
+{
+  "setup": {
+    "sections": [
+      "BLUE",
+      "BLUE",
+      "BLUE",
+      "BLUE",
+      "RED",
+      "BLUE",
+      "RED",
+      "BLUE",
+      "BLUE",
+      "BLUE"
+    ],
+    "blurMotion": {
+      "enable": true,
+      "addRounds": 0,
+      "fadeTimeUnit": 45,
+      "fadeAlphaUnit": 1
+    },
+    "enableFlashingAnimation": false
+  },
+  "lang": {
+    "ES": {
+      "spinButtonText": "GIRAR",
+      "resetButtonText": "REINICIAR",
+      "graph": {
+        "title": "Gráfico de Probabilidad Experimental",
+        "xAxisLabel": "Número total de intentos",
+        "yAxisLabel": "Probabilidad Experimental"
+      },
+      "table": {
+        "header1": "Total Intentos",
+        "header2": "Total Rojo",
+        "header3": "Porcentaje Rojo"
+      }
+    },
+    "EN": {
+      "spinButtonText": "SPIN",
+      "resetButtonText": "RESET",
+      "graph": {
+        "title": "Experimental Probability Graph",
+        "xAxisLabel": "Total number of trials",
+        "yAxisLabel": "Experimental Probability"
+      },
+      "table": {
+        "header1": "Total Trials",
+        "header2": "Total Red",
+        "header3": "Percentage Red"
+      }
+    }
+  }
+}
